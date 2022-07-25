@@ -175,7 +175,7 @@ function restart() {
 function pcPlay(round, pc) {
     if (round === 2 && pc) {
     if(player2AboutToWin === true ) {
-        for (let i = 0; i <= player2winConditions.length ; i++) {
+        for (let i = 0; i < player2winConditions.length ; i++) {
             console.log('JOGADA DA VITORIA DO PC!')
             if(player2winConditions[i][3] === 0 ) {
                 for(let u = 0; u <= 3 ; u++) {
@@ -188,10 +188,10 @@ function pcPlay(round, pc) {
         }   
     }
     if(player1AboutToWin === true) {
-        for (let i = 0; i <= player1winConditions.length ; i++) {
-            if(player1winConditions[i][3] === 0 && round === 2) {
+        for (let i = 0; i < player1winConditions.length ; i++) {
+            if(player1winConditions[i][3] === 0) {
                 for(let u = 0; u <= 3 ; u++) {
-                if (availablePlays.includes(player1winConditions[i][u]) && round === 2) {
+                if (availablePlays.includes(player1winConditions[i][u])) {
                     play(player1winConditions[i][u])
                     break
                 } 
