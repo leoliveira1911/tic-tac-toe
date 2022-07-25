@@ -7,6 +7,8 @@ let player2AboutToWin = false
 let player2Won = false
 let player2Points = 0
 var round = 0
+let pc = false
+let availablePlays = [1,2,3,4,5,6,7,8,9]
 let player1winConditions = [
     [1, 2, 3],
     [4, 5, 6],
@@ -30,25 +32,30 @@ let player2winConditions = [
 ]
 
 
-function renderTurn (turn, node) { 
+function renderTurn(turn, node) {
     if (!node) return;
     node.innerHTML = (round != 0 ? turn === 1 ? player1Turn : player2Turn : '')
 };
 
-function renderWinPlayer1 (win, node ) {
+function renderWinPlayer1(win, node) {
     if (!node) return;
     node.innerHTML = (win ? player1WonRender : null)
     win ? renderBoard(document.querySelector('.board'), win) : null
 };
 
-function renderWinPlayer2 (win, node ) {
+function renderWinPlayer2(win, node) {
     if (!node) return;
-    node.innerHTML = (win ? player2WonRender : null)   
+    node.innerHTML = (win ? player2WonRender : null)
     win ? renderBoard(document.querySelector('.board'), win) : null
 };
-function renderBoard (node, win) {
+
+function renderBoard(node, win) {
     if (!node) return;
     node.innerHTML = (win === false ? board : null)
+};
+function renderDraw(node) {
+    if (!node) return;
+    node.innerHTML = ('<h1> O JOGO FOI EMPATE </h1>')
 };
 
 var player1Turn = '<h1>Turno player 1</h1>';
@@ -68,6 +75,7 @@ var board = `
 `
 
 function start() {
+    availablePlays = [1,2,3,4,5,6,7,8,9]
     player1winConditions = [
         [1, 2, 3],
         [4, 5, 6],
@@ -92,7 +100,7 @@ function start() {
     player1Won = false
     player2AboutToWin = false
     player2Won = false
-
+    pc = false
     console.log(round + ' round antes do start')
     let rand = Math.floor(Math.random() * (2) + 1)
     round = rand
@@ -101,99 +109,187 @@ function start() {
     let win = player1Won || player2Won
     renderWinPlayer1(win, document.querySelector('.winner1'))
     renderWinPlayer2(win, document.querySelector('.winner2'))
-    renderTurn(round , document.querySelector('.playerTurn'))
+    renderTurn(round, document.querySelector('.playerTurn'))
     renderBoard(document.querySelector('.board'), win)
-    return player1, player2, round, console.log('player1:' + player1 + '   player2:' + player2 + '   round:' + round) , player1AboutToWin , player1Won, player2AboutToWin, player2Won , player1winConditions, player2winConditions
+    return availablePlays, player1, player2, round, console.log('player1:' + player1 + '   player2:' + player2 + '   round:' + round), player1AboutToWin, player1Won, player2AboutToWin, player2Won, player1winConditions, player2winConditions
+}
+function startWithPc() {
+    availablePlays = [1,2,3,4,5,6,7,8,9]
+    player1winConditions = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 5, 9],
+        [7, 5, 3]
+    ]
+    player2winConditions = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 5, 9],
+        [7, 5, 3]
+    ]
+    player1AboutToWin = false
+    player1Won = false
+    player2AboutToWin = false
+    player2Won = false
+    pc = true
+    console.log(round + ' round antes do start')
+    let rand = Math.floor(Math.random() * (2) + 1)
+    round = 1
+    player1.length = 0
+    player2.length = 0
+    let win = player1Won || player2Won
+    renderWinPlayer1(win, document.querySelector('.winner1'))
+    renderWinPlayer2(win, document.querySelector('.winner2'))
+    renderTurn(round, document.querySelector('.playerTurn'))
+    renderBoard(document.querySelector('.board'), win)
+    return pc, availablePlays, player1, player2, round, console.log('player1:' + player1 + '   player2:' + player2 + '   round:' + round), player1AboutToWin, player1Won, player2AboutToWin, player2Won, player1winConditions, player2winConditions
 }
 
 function restart() {
     location.reload()
 }
 
+function pcPlay(round, pc) {
+    if (round === 2 && pc) {
+    if(player2AboutToWin === true) {
+        for (let i = 0; i <= player2winConditions.length ; i++) {
+            if(player2winConditions[i].length == 4) {
+                for(let u = 0; u <= 3 ; u++) {
+                if (availablePlays.includes(player2winConditions[i][u])) {
+                    play(player2winConditions[i][u])
+                    let indexOfPlay = availablePlays.indexOf(player2winConditions[i][u])
+                    availablePlays.splice(indexOfPlay, 1)
+                    break
+                } 
+            }
+            } 
+        }   
+    }
+    if(player1AboutToWin === true) {
+        for (let i = 0; i <= player1winConditions.length ; i++) {
+            if(player1winConditions[i].length == 4) {
+                for(let u = 0; u <= 3 ; u++) {
+                if (availablePlays.includes(player1winConditions[i][u])) {
+                    play(player1winConditions[i][u])
+                    let indexOfPlay = availablePlays.indexOf(player1winConditions[i][u])
+                    availablePlays.splice(indexOfPlay, 1)
+                    break
+                } 
+            }
+            } 
+        }   
+    } else {
+        let indexOfRandomPlay = Math.floor(Math.random() * availablePlays.length)
+        let randomPlay = availablePlays[indexOfRandomPlay]
+        play(randomPlay)
+        availablePlays.splice(indexOfRandomPlay, 1)
+        
+    }
+    round = 1
+} else {
+    return null
+}
+}
+
 function winConditions(e) {
-   
-    if(round === 1) {
+
+    if (round === 1) {
         player2winConditions.map((winCond, i) => {
-            if(winCond.includes(e)) {
+            if (winCond.includes(e)) {
                 player2winConditions.splice(i, 1)
             }
         })
         player2winConditions.map((winCond, i) => {
-            if(winCond.includes(e)) {
+            if (winCond.includes(e)) {
                 player2winConditions.splice(i, 1)
             }
         })
         round = 2
     } else {
         player1winConditions.map((winCond, i) => {
-            if(winCond.includes(e)) {
+            if (winCond.includes(e)) {
                 player1winConditions.splice(i, 1)
             }
         })
         player1winConditions.map((winCond, i) => {
-            if(winCond.includes(e)) {
-                player1winConditions.splice(i, 1)   
+            if (winCond.includes(e)) {
+                player1winConditions.splice(i, 1)
             }
         })
         round = 1
     }
-    
-    console.log("winConditions player1" , player1winConditions , "winConditions player 2" , player2winConditions)
-    return round , player1winConditions , player2winConditions
+
+    console.log("winConditions player1", player1winConditions, "winConditions player 2", player2winConditions)
+    return round, player1winConditions, player2winConditions
 }
 
 function checkWin() {
-        for (let i = 0; i < player1winConditions.length ; i++) {
-            for(let y=0 ; y <= 3 ; y++) {
-                for (let u = 0; u < player1.length; u++) {
-                    if (player1winConditions[i][y] === player1[u]) {
-                        player1Points = player1Points + 1
-                    }
+    for (let i = 0; i < player1winConditions.length; i++) {
+        for (let y = 0; y <= 3; y++) {
+            for (let u = 0; u < player1.length; u++) {
+                if (player1winConditions[i][y] === player1[u]) {
+                    player1Points = player1Points + 1
                 }
-                
-                if (player1Points === 3) { 
-                    player1Won = true
-                    round = 0
-                }
-                if (player1Points === 2) { 
-                    player1AboutToWin = true }
-            }player1Points = 0
-        }
-        console.log(' player1about to win ' + player1AboutToWin , 'player1won' + player1Won)
-        for (let i = 0; i < player2winConditions.length ; i++) {
-            for(let y=0 ; y <= 3 ; y++) {
-                for (let u = 0; u < player2.length; u++) {
-                    if (player2winConditions[i][y] === player2[u]) {
-                        player2Points = player2Points + 1
-                    }
-                }
-                
-                if (player2Points === 3) { 
-                    player2Won = true
-                    round = 0 
-                }
-                if (player2Points === 2) { player2AboutToWin = true }
-            }player2Points = 0
-        }
-        renderWinPlayer1(player1Won , document.querySelector('.winner1'))
-        renderWinPlayer2(player2Won , document.querySelector('.winner2'))
-        console.log(' player2about to win ' + player2AboutToWin , 'player2won' + player2Won)
-        return player1AboutToWin , player1Won , player2AboutToWin , player2Won
-    }
+            }
 
-    function printValue(e) {
-        let element = document.getElementById(e)
-        console.log(element)
-        if (round === 1) {
-            element.innerHTML = 'X'
-            element.onclick = null
-            element.classList.remove('click')
-        } else {
-            element.innerHTML = 'O'
-            element.onclick = null
-            element.classList.remove('click')
+            if (player1Points === 3) {
+                player1Won = true
+                round = 0
+            }
+            if (player1Points === 2) {
+                player1AboutToWin = true
+                player1winConditions[i].includes(0) ? null : player1winConditions[i].push(0)
+            }
         }
+        player1Points = 0
     }
+    console.log(' player1about to win ' + player1AboutToWin, 'player1won' + player1Won)
+    for (let i = 0; i < player2winConditions.length; i++) {
+        for (let y = 0; y <= 3; y++) {
+            for (let u = 0; u < player2.length; u++) {
+                if (player2winConditions[i][y] === player2[u]) {
+                    player2Points = player2Points + 1
+                }
+            }
+
+            if (player2Points === 3) {
+                player2Won = true
+                round = 0
+            }
+            if (player2Points === 2) {
+                player2AboutToWin = true
+                player2winConditions[i].includes(0) ? null : player2winConditions[i].push(0)
+            }
+        }
+        player2Points = 0
+    }
+    renderWinPlayer1(player1Won, document.querySelector('.winner1'))
+    renderWinPlayer2(player2Won, document.querySelector('.winner2'))
+    console.log(' player2about to win ' + player2AboutToWin, 'player2won' + player2Won)
+    return player1AboutToWin, player1Won, player2AboutToWin, player2Won, player1winConditions 
+}
+
+function printValue(e) {
+    let element = document.getElementById(e)
+    console.log(element)
+    if (round === 1) {
+        element.innerHTML = 'X'
+        element.onclick = null
+        element.classList.remove('click')
+    } else {
+        element.innerHTML = 'O'
+        element.onclick = null
+        element.classList.remove('click')
+    }
+}
 
 
 
@@ -202,12 +298,23 @@ function play(e) {
     if (round === 1) {
         player1.push(e)
         printValue(e)
+        let indexOfPlay = availablePlays.indexOf(e)
+        availablePlays.splice(indexOfPlay , 1)
     } else {
         player2.push(e)
         printValue(e)
+        let indexOfPlay = availablePlays.indexOf(e)
+        availablePlays.splice(indexOfPlay , 1)
     }
     winConditions(e)
     checkWin()
-    renderTurn(round , document.querySelector('.playerTurn') )
-    return player1, player2
+    renderTurn(round, document.querySelector('.playerTurn'))
+    pcPlay(round, pc)
+    
+    if(availablePlays.length == 0 && player1Won == false && player2Won == false) {
+        renderTurn(0, document.querySelector('.playerTurn'))
+        renderDraw(document.querySelector('.playerTurn'))
+    }
+
+    return player1, player2, availablePlays, console.log(availablePlays)
 }
