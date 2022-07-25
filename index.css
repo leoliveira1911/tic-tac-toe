@@ -1,6 +1,8 @@
+
 body{
     background-color:black  ;
     color: aliceblue;
+    font-family:'Poppins', sans-serif;    
 }
 
 .options {
@@ -13,6 +15,7 @@ body{
     align-items: center;
     width: 95vw;
     height: 100vh;
+    font-family: 'Poppins';
 }
 
 .buttn {
@@ -26,8 +29,26 @@ body{
     margin: 3px;
     background-color: rgb(73, 68, 68);
     color: aliceblue;
-    font-size: 3rem;
-    
+    font-size: 4rem;
+    font-family:'Poppins';  
+    font-weight: 700;
+
+}
+
+.start {
+    height: 150px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid black 1px;
+    border-radius: 10px;
+    margin: 3px;
+    background-color: rgb(73, 68, 68);
+    color: aliceblue;
+    font-size: 2rem;
+    font-family:'Poppins';  
+    font-weight: 700;
 
 }
 .click {
@@ -38,6 +59,7 @@ body{
 }
 
 .board {
+    font-size: 3rem;
     display: flex;
     flex-wrap: wrap;
     width: 475.43px;
