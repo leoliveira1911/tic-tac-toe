@@ -32,6 +32,7 @@ let player2winConditions = [
 ]
 
 
+
 function renderTurn(turn, node) {
     if (!node) return;
     node.innerHTML = (round != 0 ? turn === 1 ? player1Turn : player2Turn : '')
@@ -40,13 +41,26 @@ function renderTurn(turn, node) {
 function renderWinPlayer1(win, node) {
     if (!node) return;
     node.innerHTML = (win ? player1WonRender : null)
-    win ? renderBoard(document.querySelector('.board'), win) : null
+    if (win) {
+        availablePlays.map((e) => {
+            document.getElementById(e).classList.remove('click')
+            document.getElementById(e).onclick = null
+        })
+    }
+    
+   /*  win ? renderBoard(document.querySelector('.board'), win) : null */
 };
 
 function renderWinPlayer2(win, node) {
     if (!node) return;
     node.innerHTML = (win ? player2WonRender : null)
-    win ? renderBoard(document.querySelector('.board'), win) : null
+    if (win) {
+        availablePlays.map((e) => {
+            document.getElementById(e).classList.remove('click')
+            document.getElementById(e).onclick = null
+        })
+    }
+   /*  win ? renderBoard(document.querySelector('.board'), win) : null */
 };
 
 function renderBoard(node, win) {
@@ -142,7 +156,7 @@ function startWithPc() {
     pc = true
     console.log(round + ' round antes do start')
     let rand = Math.floor(Math.random() * (2) + 1)
-    round = 1
+    round = rand
     player1.length = 0
     player2.length = 0
     let win = player1Won || player2Won
@@ -150,6 +164,7 @@ function startWithPc() {
     renderWinPlayer2(win, document.querySelector('.winner2'))
     renderTurn(round, document.querySelector('.playerTurn'))
     renderBoard(document.querySelector('.board'), win)
+    pcPlay(round, pc)
     return pc, availablePlays, player1, player2, round, console.log('player1:' + player1 + '   player2:' + player2 + '   round:' + round), player1AboutToWin, player1Won, player2AboutToWin, player2Won, player1winConditions, player2winConditions
 }
 
@@ -159,14 +174,13 @@ function restart() {
 
 function pcPlay(round, pc) {
     if (round === 2 && pc) {
-    if(player2AboutToWin === true) {
+    if(player2AboutToWin === true ) {
         for (let i = 0; i <= player2winConditions.length ; i++) {
-            if(player2winConditions[i].length == 4) {
+            console.log('JOGADA DA VITORIA DO PC!')
+            if(player2winConditions[i][3] === 0 ) {
                 for(let u = 0; u <= 3 ; u++) {
-                if (availablePlays.includes(player2winConditions[i][u])) {
+                if (availablePlays.includes(player2winConditions[i][u]) ) {
                     play(player2winConditions[i][u])
-                    let indexOfPlay = availablePlays.indexOf(player2winConditions[i][u])
-                    availablePlays.splice(indexOfPlay, 1)
                     break
                 } 
             }
@@ -175,12 +189,10 @@ function pcPlay(round, pc) {
     }
     if(player1AboutToWin === true) {
         for (let i = 0; i <= player1winConditions.length ; i++) {
-            if(player1winConditions[i].length == 4) {
+            if(player1winConditions[i][3] === 0 && round === 2) {
                 for(let u = 0; u <= 3 ; u++) {
-                if (availablePlays.includes(player1winConditions[i][u])) {
+                if (availablePlays.includes(player1winConditions[i][u]) && round === 2) {
                     play(player1winConditions[i][u])
-                    let indexOfPlay = availablePlays.indexOf(player1winConditions[i][u])
-                    availablePlays.splice(indexOfPlay, 1)
                     break
                 } 
             }
@@ -189,9 +201,7 @@ function pcPlay(round, pc) {
     } else {
         let indexOfRandomPlay = Math.floor(Math.random() * availablePlays.length)
         let randomPlay = availablePlays[indexOfRandomPlay]
-        play(randomPlay)
-        availablePlays.splice(indexOfRandomPlay, 1)
-        
+        play(randomPlay)    
     }
     round = 1
 } else {
@@ -232,6 +242,9 @@ function winConditions(e) {
 }
 
 function checkWin() {
+    player1AboutToWin = false
+    player2AboutToWin = false
+
     for (let i = 0; i < player1winConditions.length; i++) {
         for (let y = 0; y <= 3; y++) {
             for (let u = 0; u < player1.length; u++) {
@@ -309,12 +322,15 @@ function play(e) {
     winConditions(e)
     checkWin()
     renderTurn(round, document.querySelector('.playerTurn'))
-    pcPlay(round, pc)
-    
-    if(availablePlays.length == 0 && player1Won == false && player2Won == false) {
+    if(player1winConditions.length == 0 && player2winConditions.length == 0 && player1Won == false && player2Won == false) {
         renderTurn(0, document.querySelector('.playerTurn'))
         renderDraw(document.querySelector('.playerTurn'))
     }
 
-    return player1, player2, availablePlays, console.log(availablePlays)
+    console.log(availablePlays)
+    pcPlay(round, pc)
+    
+    return player1, player2, availablePlays
 }
+
+console.log(player1winConditions , player2winConditions)
