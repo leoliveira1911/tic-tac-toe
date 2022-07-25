@@ -56,15 +56,15 @@ var player2Turn = '<h1>Turno player 2</h1>';
 var player1WonRender = '<h1>Player 1 Won</h1>';
 var player2WonRender = '<h1>Player 2 Won</h1>';
 var board = ` 
-<div class="buttn" id="1"  onclick={play(1)} > </div>
-<div class='buttn' id="2"  onclick={play(2)} > </div>
-<div class='buttn' id="3"  onclick={play(3)} > </div>
-<div class='buttn' id="4"  onclick={play(4)} > </div>
-<div class='buttn' id="5"  onclick={play(5)} > </div>
-<div class='buttn' id="6"  onclick={play(6)} > </div>
-<div class='buttn' id="7"  onclick={play(7)} > </div>
-<div class='buttn' id="8"  onclick={play(8)} > </div>
-<div class='buttn' id="9"  onclick={play(9)} > </div>
+<div class="buttn click" id="1"  onclick={play(1)} > </div>
+<div class='buttn click' id="2"  onclick={play(2)} > </div>
+<div class='buttn click' id="3"  onclick={play(3)} > </div>
+<div class='buttn click' id="4"  onclick={play(4)} > </div>
+<div class='buttn click' id="5"  onclick={play(5)} > </div>
+<div class='buttn click' id="6"  onclick={play(6)} > </div>
+<div class='buttn click' id="7"  onclick={play(7)} > </div>
+<div class='buttn click' id="8"  onclick={play(8)} > </div>
+<div class='buttn click' id="9"  onclick={play(9)} > </div>
 `
 
 function start() {
@@ -187,9 +187,11 @@ function checkWin() {
         if (round === 1) {
             element.innerHTML = 'X'
             element.onclick = null
+            element.classList.remove('click')
         } else {
             element.innerHTML = 'O'
             element.onclick = null
+            element.classList.remove('click')
         }
     }
 
