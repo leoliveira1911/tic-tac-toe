@@ -1,3 +1,8 @@
+body{
+    background-color:black  ;
+    color: aliceblue;
+}
+
 .game {
     display: flex;
     flex-direction: column;

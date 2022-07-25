@@ -1,5 +1,3 @@
-
-
 const player1 = []
 const player2 = []
 let player1Points = 0
@@ -8,7 +6,6 @@ let player1Won = false
 let player2AboutToWin = false
 let player2Won = false
 let player2Points = 0
-
 var round = 0
 let player1winConditions = [
     [1, 2, 3],
@@ -35,7 +32,7 @@ let player2winConditions = [
 
 function renderTurn (turn, node) { 
     if (!node) return;
-    node.innerHTML = (turn === 1 ? player1Turn : player2Turn)
+    node.innerHTML = (round != 0 ? turn === 1 ? player1Turn : player2Turn : '')
 };
 
 function renderWinPlayer1 (win, node ) {
@@ -104,7 +101,7 @@ function start() {
     let win = player1Won || player2Won
     renderWinPlayer1(win, document.querySelector('.winner1'))
     renderWinPlayer2(win, document.querySelector('.winner2'))
-    renderTurn(round , document.querySelector('.playerTurn') , win )
+    renderTurn(round , document.querySelector('.playerTurn'))
     renderBoard(document.querySelector('.board'), win)
     return player1, player2, round, console.log('player1:' + player1 + '   player2:' + player2 + '   round:' + round) , player1AboutToWin , player1Won, player2AboutToWin, player2Won , player1winConditions, player2winConditions
 }
@@ -154,8 +151,12 @@ function checkWin() {
                     }
                 }
                 
-                if (player1Points === 3) { player1Won = true }
-                if (player1Points === 2) { player1AboutToWin = true }
+                if (player1Points === 3) { 
+                    player1Won = true
+                    round = 0
+                }
+                if (player1Points === 2) { 
+                    player1AboutToWin = true }
             }player1Points = 0
         }
         console.log(' player1about to win ' + player1AboutToWin , 'player1won' + player1Won)
@@ -167,7 +168,10 @@ function checkWin() {
                     }
                 }
                 
-                if (player2Points === 3) { player2Won = true }
+                if (player2Points === 3) { 
+                    player2Won = true
+                    round = 0 
+                }
                 if (player2Points === 2) { player2AboutToWin = true }
             }player2Points = 0
         }
@@ -203,5 +207,5 @@ function play(e) {
     winConditions(e)
     checkWin()
     renderTurn(round , document.querySelector('.playerTurn') )
-    return console.log(player1, player2, round + "round depois da jogada"), player1, player2
+    return player1, player2
 }
