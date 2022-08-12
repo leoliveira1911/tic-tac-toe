@@ -125,6 +125,7 @@ function start() {
     renderWinPlayer2(win, document.querySelector('.winner2'))
     renderTurn(round, document.querySelector('.playerTurn'))
     renderBoard(document.querySelector('.board'), win)
+    
     return availablePlays, player1, player2, round, console.log('player1:' + player1 + '   player2:' + player2 + '   round:' + round), player1AboutToWin, player1Won, player2AboutToWin, player2Won, player1winConditions, player2winConditions
 }
 function startWithPc() {
@@ -174,14 +175,35 @@ function restart() {
 
 function pcPlay(round, pc) {
     if (round === 2 && pc) {
+        //garantir que o PC não vai perder caso a pessoa comece.
+        if(availablePlays.length == 8){
+            if(player1.includes(5)){
+                const plays = [1,3,7,9];
+                const index = Math.floor(Math.random() * plays.length);
+                return play(plays[index])
+                
+            } else if (player1.includes(2) || player1.includes(4) || player1.includes(6) || player1.includes(8)) {
+                const plays = [1,3,7,9,5];
+                const index = Math.floor(Math.random() * plays.length);
+                return play(plays[index])
+            } else {
+                return play(5)
+            } 
+        }else if (availablePlays.length == 6){
+            if(player1.includes(1) && player1.includes(9) || player1.includes(3) && player1.includes(7)) {
+                const plays = [2,4,6,8];
+                const index = Math.floor(Math.random() * plays.length);
+                return play(plays[index])
+            }
+        }
     if(player2AboutToWin === true ) {
         for (let i = 0; i < player2winConditions.length ; i++) {
             console.log('JOGADA DA VITORIA DO PC!')
             if(player2winConditions[i][3] === 0 ) {
                 for(let u = 0; u <= 3 ; u++) {
                 if (availablePlays.includes(player2winConditions[i][u]) ) {
-                    play(player2winConditions[i][u])
-                    break
+                    return play(player2winConditions[i][u])
+                    
                 } 
             }
             } 
