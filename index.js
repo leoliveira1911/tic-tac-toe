@@ -6,7 +6,7 @@ let player1Won = false
 let player2AboutToWin = false
 let player2Won = false
 let player2Points = 0
-var round = 0
+let round = 0
 let pc = false
 let availablePlays = [1,2,3,4,5,6,7,8,9]
 let player1winConditions = [
@@ -72,11 +72,11 @@ function renderDraw(node) {
     node.innerHTML = ('<h1> O JOGO FOI EMPATE </h1>')
 };
 
-var player1Turn = '<h1>Turno player 1</h1>';
-var player2Turn = '<h1>Turno player 2</h1>';
-var player1WonRender = '<h1>Player 1 Won</h1>';
-var player2WonRender = '<h1>Player 2 Won</h1>';
-var board = ` 
+let player1Turn = '<h1>Turno player 1</h1>';
+let player2Turn = '<h1>Turno player 2</h1>';
+let player1WonRender = '<h1>Player 1 Won</h1>';
+let player2WonRender = '<h1>Player 2 Won</h1>';
+let board = ` 
 <div class="buttn click" id="1"  onclick={play(1)} > </div>
 <div class='buttn click' id="2"  onclick={play(2)} > </div>
 <div class='buttn click' id="3"  onclick={play(3)} > </div>
@@ -214,8 +214,8 @@ function pcPlay(round, pc) {
             if(player1winConditions[i][3] === 0) {
                 for(let u = 0; u <= 3 ; u++) {
                 if (availablePlays.includes(player1winConditions[i][u])) {
-                    play(player1winConditions[i][u])
-                    break
+                    return play(player1winConditions[i][u])
+                    
                 } 
             }
             } 
@@ -223,7 +223,7 @@ function pcPlay(round, pc) {
     } else {
         let indexOfRandomPlay = Math.floor(Math.random() * availablePlays.length)
         let randomPlay = availablePlays[indexOfRandomPlay]
-        play(randomPlay)    
+        return play(randomPlay)    
     }
     round = 1
 } else {
