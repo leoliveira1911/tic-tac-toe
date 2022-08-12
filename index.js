@@ -31,6 +31,7 @@ let player2winConditions = [
     [7, 5, 3]
 ]
 
+let availableCorners = [1,3,7,9]
 
 
 function renderTurn(turn, node) {
@@ -110,6 +111,7 @@ function start() {
         [1, 5, 9],
         [7, 5, 3]
     ]
+    availableCorners = [1,3,7,9]
     player1AboutToWin = false
     player1Won = false
     player2AboutToWin = false
@@ -150,6 +152,7 @@ function startWithPc() {
         [1, 5, 9],
         [7, 5, 3]
     ]
+    availableCorners = [1,3,7,9]
     player1AboutToWin = false
     player1Won = false
     player2AboutToWin = false
@@ -194,6 +197,9 @@ function pcPlay(round, pc) {
                 const plays = [2,4,6,8];
                 const index = Math.floor(Math.random() * plays.length);
                 return play(plays[index])
+            } else if (player1.includes(5) && player1AboutToWin == false &&  (player1.includes(1) || player1.includes(3) || player1.includes(7) || player1.includes(9) )) {
+                    const index = Math.floor(Math.random() * availableCorners.length);
+                    return play(availableCorners[index])
             }
         }
     if(player2AboutToWin === true ) {
@@ -330,6 +336,10 @@ function printValue(e) {
 
 function play(e) {
     console.log('round visto da func play antes da jogada' + round)
+    if(e == 1 || e == 3 || e == 7 || e == 9) {
+        let indexOfPlay = availableCorners.indexOf(e)
+        availableCorners.splice(indexOfPlay , 1)
+    }
     if (round === 1) {
         player1.push(e)
         printValue(e)
