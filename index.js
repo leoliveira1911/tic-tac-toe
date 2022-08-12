@@ -185,14 +185,10 @@ function pcPlay(round, pc) {
                 const index = Math.floor(Math.random() * plays.length);
                 return play(plays[index])
                 
-            } else if (player1.includes(2) || player1.includes(4) || player1.includes(6) || player1.includes(8)) {
-                const plays = [1,3,7,9,5];
-                const index = Math.floor(Math.random() * plays.length);
-                return play(plays[index])
             } else {
                 return play(5)
             } 
-        }else if (availablePlays.length == 6){
+        } else if (availablePlays.length == 6){
             if(player1.includes(1) && player1.includes(9) || player1.includes(3) && player1.includes(7)) {
                 const plays = [2,4,6,8];
                 const index = Math.floor(Math.random() * plays.length);
