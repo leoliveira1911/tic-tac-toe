@@ -196,11 +196,21 @@ function pcPlay(round, pc) {
             } else if (player1.includes(5) && player1AboutToWin == false &&  (player1.includes(1) || player1.includes(3) || player1.includes(7) || player1.includes(9) )) {
                     const index = Math.floor(Math.random() * availableCorners.length);
                     return play(availableCorners[index])
+            } else if (player1AboutToWin == false) {
+                let jogada
+                player2winConditions.map((plays , index) => {
+                    if(plays.includes(5)){
+                    jogada = player2winConditions[index][0]
+                   // console.log('JOGADA' , jogada)
+                }  
+            }
+            )
+            return play(jogada)
             }
         }
     if(player2AboutToWin === true ) {
         for (let i = 0; i < player2winConditions.length ; i++) {
-            console.log('JOGADA DA VITORIA DO PC!')
+            //console.log('JOGADA DA VITORIA DO PC!')
             if(player2winConditions[i][3] === 0 ) {
                 for(let u = 0; u <= 3 ; u++) {
                 if (availablePlays.includes(player2winConditions[i][u]) ) {
@@ -261,7 +271,7 @@ function winConditions(e) {
         round = 1
     }
 
-    console.log("winConditions player1", player1winConditions, "winConditions player 2", player2winConditions)
+    //console.log("winConditions player1", player1winConditions, "winConditions player 2", player2winConditions)
     return round, player1winConditions, player2winConditions
 }
 
@@ -288,7 +298,7 @@ function checkWin() {
         }
         player1Points = 0
     }
-    console.log(' player1about to win ' + player1AboutToWin, 'player1won' + player1Won)
+    //console.log(' player1about to win ' + player1AboutToWin, 'player1won' + player1Won)
     for (let i = 0; i < player2winConditions.length; i++) {
         for (let y = 0; y <= 3; y++) {
             for (let u = 0; u < player2.length; u++) {
@@ -310,7 +320,7 @@ function checkWin() {
     }
     renderWinPlayer1(player1Won, document.querySelector('.winner1'))
     renderWinPlayer2(player2Won, document.querySelector('.winner2'))
-    console.log(' player2about to win ' + player2AboutToWin, 'player2won' + player2Won)
+    //console.log(' player2about to win ' + player2AboutToWin, 'player2won' + player2Won)
     return player1AboutToWin, player1Won, player2AboutToWin, player2Won, player1winConditions 
 }
 
@@ -331,7 +341,7 @@ function printValue(e) {
 
 
 function play(e) {
-    console.log('round visto da func play antes da jogada' + round)
+    //console.log('round visto da func play antes da jogada' + round)
     if(e == 1 || e == 3 || e == 7 || e == 9) {
         let indexOfPlay = availableCorners.indexOf(e)
         availableCorners.splice(indexOfPlay , 1)
