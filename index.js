@@ -196,7 +196,19 @@ function pcPlay(round, pc) {
             } else if (player1.includes(5) && player1AboutToWin == false &&  (player1.includes(1) || player1.includes(3) || player1.includes(7) || player1.includes(9) )) {
                     const index = Math.floor(Math.random() * availableCorners.length);
                     return play(availableCorners[index])
-            } else if (player1AboutToWin == false) {
+            } else if (player1.includes(2) && player1.includes(6)) {
+                return play(3)
+            } 
+            else if (player1.includes(2) && player1.includes(4)) {
+                return play(1)
+            }
+            else if (player1.includes(8) && player1.includes(4)) {
+                return play(7)
+            }
+            else if (player1.includes(8) && player1.includes(6)) {
+                return play(9)
+            }
+             else if (player1AboutToWin == false) {
                 let jogada
                 player2winConditions.map((plays , index) => {
                     if(plays.includes(5)){
