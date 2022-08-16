@@ -208,6 +208,18 @@ function pcPlay(round, pc) {
             else if (player1.includes(8) && player1.includes(6)) {
                 return play(9)
             }
+            else if (player1.includes(1) && player1.includes(6)) {
+                return play(3)
+            }
+            else if (player1.includes(3) && player1.includes(5)) {
+                return play(1)
+            }
+            else if (player1.includes(4) && player1.includes(9)) {
+                return play(7)
+            }
+            else if (player1.includes(6) && player1.includes(7)) {
+                return play(9)
+            }
              else if (player1AboutToWin == false) {
                 let jogada
                 player2winConditions.map((plays , index) => {
